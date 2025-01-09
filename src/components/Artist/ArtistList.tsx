@@ -3,7 +3,7 @@ import { Play, Pause, MoreHorizontal } from 'lucide-react';
 import * as artistService from '../../services/artistService';
 import * as songService from '../../services/songService';
 import PlayerControls from '../Song/PlayerControls';
-
+const API_URL_ROOT = 'http://127.0.0.1:3001/';
 interface Artist {
   id: string;
   name: string;
@@ -165,7 +165,7 @@ export default function ArtistList() {
             >
               <div className="relative">
                 <img
-                  src={`https://source.unsplash.com/random/400x400?music&sig=${artist.id}`}
+                  src={`${API_URL_ROOT}${artist.image}`}
                   alt={artist.name}
                   className="w-full h-48 object-cover"
                 />
@@ -198,7 +198,7 @@ export default function ArtistList() {
                 >
                   <div className="relative">
                     <img
-                      src={`https://source.unsplash.com/random/400x400?music&sig=${song.id}`}
+                      src={`${API_URL_ROOT}${song.image}`}
                       alt={song.title}
                       className="w-full h-48 object-cover"
                     />

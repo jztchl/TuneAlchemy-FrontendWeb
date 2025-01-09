@@ -7,13 +7,22 @@ export default function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('email', email);
+    formData.append('password', password);
+    if (profilePicture) {
+      formData.append('profilePicture', profilePicture);
+    }
+
     try {
-      await authService.register(username, email, password);
+      await authService.register(formData);
       navigate('/login');
     } catch (err) {
       setError('Registration failed. Please try again.');
@@ -61,6 +70,15 @@ export default function Register() {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
               required
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 text-sm font-bold mb-2">Profile Picture</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setProfilePicture(e.target.files?.[0] || null)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
           <button

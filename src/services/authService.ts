@@ -4,14 +4,12 @@ import { jwtDecode } from 'jwt-decode';
 const API_URL = config.API_URL;
 
 
-const getAuthHeader = (token: string) => {
+const getAuthHeader = () => {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
   return {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: { Authorization: `Bearer ${user.token}` }
   };
 };
-
 
 
 export const login = async (email: string, password: string) => {
@@ -23,12 +21,13 @@ export const login = async (email: string, password: string) => {
   return response.data;
 };
 
-export const register = async (username: string, email: string, password: string) => {
-  return axios.post(`${API_URL}/auth/register`, {
-    username,
-    email,
-    password,
+export const register = async (formData: FormData) => {
+  const response = await axios.post(`${API_URL}/auth/register`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
+  return response.data;
 };
 
 export const refreshToken = () => {
@@ -52,11 +51,12 @@ export const checkTokenValidity = async () => {
   const token = localStorage.getItem('user');
   if (token) {
     const decodedToken: any = jwtDecode(token);
-    console.log('Token expiry:', decodedToken.exp);
     const currentTime = Date.now() / 1000;
     if (decodedToken.exp < currentTime) {
       await refreshToken();
     }
+  } else {
+    throw new Error('No token found. User is not authenticated.');
   }
 };
 
@@ -65,16 +65,35 @@ export const checkRefreshTokenValidity = async () => {
   if (refreshToken) {
     const decodedRefreshToken: any = jwtDecode(refreshToken);
     const currentTime = Date.now() / 1000;
-    console.log('Refresh token expiry:', decodedRefreshToken.exp);
-    console.log('current time:', currentTime);
-    if (decodedRefreshToken.exp > currentTime) {
+    if (decodedRefreshToken.exp < currentTime) {
       logout();
       throw new Error('Refresh token has expired. Please log in again.');
     }
+  } else {
+    throw new Error('No refresh token found. User is not authenticated.');
   }
 };
 
 export const getCurrentUser = () => {
   const token = localStorage.getItem('user');
   return token ? jwtDecode(token) : null;
+};
+
+export const fetchUserProfile = async () => {
+  const response = await axios.get(`${API_URL}/users/profile`,getAuthHeader());
+  return response.data;
+};
+
+
+
+
+export const updateUserProfile = async (formData: FormData) => {
+  const token = localStorage.getItem('user');
+  const response = await axios.put(`${API_URL}/users/profile`, formData, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data', // Set content type for file uploads
+    },
+  });
+  return response.data;
 };

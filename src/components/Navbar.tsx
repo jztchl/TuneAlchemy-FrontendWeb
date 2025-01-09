@@ -1,13 +1,13 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Home, Music, Users, PlaySquare, LogOut } from 'lucide-react';
+import { Home, Music, Users, PlaySquare, LogOut, User } from 'lucide-react';
 import * as authService from '../services/authService';
 
 interface NavbarProps {
   updateAuthStatus: () => void;
+  isAdmin: boolean;
 }
 
-export default function Navbar({ updateAuthStatus }: NavbarProps) {
+export default function Navbar({ updateAuthStatus, isAdmin }: NavbarProps) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -24,6 +24,11 @@ export default function Navbar({ updateAuthStatus }: NavbarProps) {
       </div>
       
       <div className="space-y-4">
+        <Link to="/profile" className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800">
+          <User className="h-5 w-5" />
+          <span>Profile</span>
+        </Link>
+
         <Link to="/dashboard" className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800">
           <Home className="h-5 w-5" />
           <span>Home</span>
@@ -43,6 +48,12 @@ export default function Navbar({ updateAuthStatus }: NavbarProps) {
           <PlaySquare className="h-5 w-5" />
           <span>Playlists</span>
         </Link>
+        
+        {isAdmin && (
+          <Link to="/admin" className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800">
+            <span>Admin Panel</span>
+          </Link>
+        )}
         
         <button
           onClick={handleLogout}

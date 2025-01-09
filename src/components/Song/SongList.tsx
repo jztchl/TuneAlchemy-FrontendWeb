@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import { Play, Pause, MoreHorizontal } from 'lucide-react';
 import * as songService from '../../services/songService';
 import PlayerControls from './PlayerControls';
-
+const API_URL_ROOT = 'http://127.0.0.1:3001/';
 interface Song {
   id: string;
   title: string;
@@ -141,7 +141,7 @@ export default function SongList() {
           >
             <div className="relative">
               <img 
-                src={`https://source.unsplash.com/random/400x400?music&sig=${song.id}`}
+                src={`${API_URL_ROOT}${song.image}`}
                 alt={song.title}
                 className="w-full h-48 object-cover"
               />
@@ -161,7 +161,7 @@ export default function SongList() {
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="font-semibold text-gray-800 mb-1">{song.title}</h3>
-                  <p className="text-sm text-gray-600">Artist {song.artistId}</p>
+                  <p className="text-sm text-gray-600"> {song.artist.name}</p>
                 </div>
                 <button className="text-gray-400 hover:text-gray-600">
                   <MoreHorizontal className="h-5 w-5" />

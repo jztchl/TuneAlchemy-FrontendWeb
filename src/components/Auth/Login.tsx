@@ -65,6 +65,14 @@ export default function Login({ updateAuthStatus }: LoginProps) {
             Sign In
           </button>
         </form>
+        <div className="mt-6 flex justify-center">
+          <button
+            onClick={() => navigate('/register')}
+            className="w-full bg-gray-200 text-indigo-600 py-2 px-4 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Register
+          </button>
+        </div>
       </div>
     </div>
   );
