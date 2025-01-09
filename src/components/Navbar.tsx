@@ -3,11 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Home, Music, Users, PlaySquare, LogOut } from 'lucide-react';
 import * as authService from '../services/authService';
 
-export default function Navbar() {
+interface NavbarProps {
+  updateAuthStatus: () => void;
+}
+
+export default function Navbar({ updateAuthStatus }: NavbarProps) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     authService.logout();
+    updateAuthStatus();
     navigate('/login');
   };
 

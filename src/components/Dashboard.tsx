@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { Play, Disc, Clock, TrendingUp } from 'lucide-react';
 import recentlyPlayedService from '../services/recentlyPlayedService';
 

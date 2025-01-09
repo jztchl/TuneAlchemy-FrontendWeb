@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { LogIn } from 'lucide-react';
 import * as authService from '../../services/authService';
 
-export default function Login() {
+interface LoginProps {
+  updateAuthStatus: () => void;
+}
+
+export default function Login({ updateAuthStatus }: LoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -13,6 +17,8 @@ export default function Login() {
     e.preventDefault();
     try {
       await authService.login(email, password);
+      updateAuthStatus();
+
       navigate('/dashboard');
     } catch (err) {
       setError('Invalid credentials');

@@ -10,7 +10,7 @@ interface Playlist {
   songCount: number;
 }
 
-export default function PlaylistList() {
+export default function PlayList() {
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -132,3 +132,4 @@ export default function PlaylistList() {
       )}
     </div>
   );
+}

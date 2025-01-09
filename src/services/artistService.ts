@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { config } from '../config/config';
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = config.API_URL;
 
 const getAuthHeader = () => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
