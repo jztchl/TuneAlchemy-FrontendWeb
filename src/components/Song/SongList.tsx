@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { Play, Pause, MoreHorizontal } from 'lucide-react';
 import * as songService from '../../services/songService';
 import PlayerControls from './PlayerControls';

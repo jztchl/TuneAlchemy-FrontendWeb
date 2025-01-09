@@ -1,4 +1,3 @@
-import React from 'react';
 import { Play, Pause, SkipBack, SkipForward, Shuffle, Volume2 } from 'lucide-react';
 
 interface PlayerControlsProps {
