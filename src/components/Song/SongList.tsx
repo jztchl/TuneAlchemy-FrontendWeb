@@ -24,7 +24,7 @@ export default function SongList() {
       try {
         const data = await songService.getAllSongs();
         setSongs(data);
-        setPlayQueue(data.map(song => song.id));
+        setPlayQueue(data.map((song: Song) => song.id));
       } catch (error) {
         console.error('Error fetching songs:', error);
       } finally {

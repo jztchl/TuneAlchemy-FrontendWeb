@@ -33,7 +33,11 @@ export const getSongById = async (id: string) => {
       throw new Error('Invalid response format');
     }
   } catch (error) {
-    console.error('Streaming error details:', error.response?.data);
+    if (axios.isAxiosError(error)) {
+      console.error('Streaming error details:', error.response?.data);
+    } else {
+      console.error('Streaming error details:', error);
+    }
     throw error;
   }
 };
