@@ -4,11 +4,14 @@ import recentlyPlayedService from '../services/recentlyPlayedService';
 
 export default function Dashboard() {
   const [recentSongs, setRecentSongs] = useState([]);
-
+  const [recentSongsLength,setRecentSongsLength] =useState()
   useEffect(() => {
     const fetchRecentlyPlayed = async () => {
       const data = await recentlyPlayedService.getRecentlyPlayed();
       setRecentSongs(data);
+      setRecentSongsLength(data.length);
+
+      
     };
     fetchRecentlyPlayed();
   }, []);
@@ -19,7 +22,7 @@ export default function Dashboard() {
         <h1 className="text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-pink-500">Welcome Back!</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <StatCard icon={<Play className="h-8 w-8 mb-4" />} title="Recently Played" value={`${recentSongs.length} songs`} gradient="from-purple-400 to-pink-500" />
+          <StatCard icon={<Play className="h-8 w-8 mb-4" />} title="Recently Played" value={`${recentSongsLength} songs`} gradient="from-purple-400 to-pink-500" />
           <StatCard icon={<Disc className="h-8 w-8 mb-4" />} title="Your Library" value="142 songs" gradient="from-blue-400 to-indigo-500" />
           <StatCard icon={<Clock className="h-8 w-8 mb-4" />} title="Hours Listened" value="48 hours" gradient="from-green-400 to-blue-500" />
           <StatCard icon={<TrendingUp className="h-8 w-8 mb-4" />} title="Top Genre" value="Rock" gradient="from-pink-400 to-red-500" />
@@ -38,15 +41,19 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {recentSongs.map((song, index) => (
-                  <tr key={song.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
-                    <td className="py-4 text-pink-300">{index + 1}</td>
-                    <td className="py-4 font-medium text-white">{song.title}</td>
-                    <td className="py-4 text-blue-200">{song.artist}</td>
-                    <td className="py-4 text-blue-200">{song.duration}</td>
-                  </tr>
-                ))}
-              </tbody>
+  {recentSongs.map((song, index) => (
+    <tr
+      key={song.id || index} // Use `id` if available; fallback to index
+      className="border-b border-white/10 hover:bg-white/5 transition-colors"
+    >
+      <td className="py-4 text-pink-300">{index + 1}</td>
+      <td className="py-4 font-medium text-white">{song.title || "Unknown"}</td>
+      <td className="py-4 text-blue-200">{song.artist || "Unknown"}</td>
+      <td className="py-4 text-blue-200">{song.duration || "N/A"}</td>
+    </tr>
+  ))}
+</tbody>
+
             </table>
           </div>
         </div>
